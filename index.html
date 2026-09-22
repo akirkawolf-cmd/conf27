@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Конференции.РФ</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+    <div class="header" id="mainHeader" style="display:none;">
+        <h1>️ Конференции.РФ</h1>
+        <div class="user-info">
+            <span id="headerUserName"></span>
+            <button class="btn btn-secondary" onclick="logout()">Выйти</button>
+        </div>
+    </div>
+
+    <div class="page active" id="pageRegister">
+        <div class="container">
+            <div class="card">
+                <h2>Регистрация</h2>
+                <div class="alert alert-error" id="regAlertError"></div>
+                <div class="alert alert-success" id="regAlertSuccess"></div>
+
+                <div class="form-group">
+                    <label>Логин (латиница и цифры, не менее 6 символов)</label>
+                    <input type="text" id="regLogin" placeholder="Введите логин">
+                    <div class="error-msg" id="regLoginError">Логин должен содержать только латиницу и цифры, минимум 6 символов</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Пароль (минимум 8 символов)</label>
+                    <input type="password" id="regPassword" placeholder="Введите пароль">
+                    <div class="error-msg" id="regPasswordError">Пароль должен содержать минимум 8 символов</div>
+                </div>
+
+                <div class="form-group">
+                    <label>ФИО (кириллица и пробелы)</label>
+                    <input type="text" id="regName" placeholder="Иванов Иван Иванович">
+                    <div class="error-msg" id="regNameError">ФИО должно содержать только кириллицу и пробелы</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Телефон (формат: 8(XXX)XXX-XX-XX)</label>
+                    <input type="text" id="regPhone" placeholder="8(999)123-45-67">
+                    <div class="error-msg" id="regPhoneError">Неверный формат телефона. Пример: 8(999)123-45-67</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Электронная почта</label>
+                    <input type="email" id="regEmail" placeholder="example@mail.ru">
+                    <div class="error-msg" id="regEmailError">Введите корректный email</div>
+                </div>
+
+                <button class="btn btn-primary" onclick="registerUser()" style="width:100%; padding:12px; font-size:1em;">Создать пользователя</button>
+
+                <p style="margin-top:18px; text-align:center;">
+                    <span class="link-text" onclick="showPage('pageLogin')">Еще не зарегистрированы? Регистрация</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="page" id="pageLogin">
+        <div class="container">
+            <div class="card">
+                <h2>Авторизация</h2>
+                <div class="alert alert-error" id="loginAlertError"></div>
+
+                <div class="form-group">
+                    <label>Логин</label>
+                    <input type="text" id="loginLogin" placeholder="Введите логин">
+                </div>
+
+                <div class="form-group">
+                    <label>Пароль</label>
+                    <input type="password" id="loginPassword" placeholder="Введите пароль">
+                </div>
+
+                <button class="btn btn-primary" onclick="loginUser()" style="width:100%; padding:12px; font-size:1em;">Войти</button>
+
+                <p style="margin-top:18px; text-align:center;">
+                    <span class="link-text" onclick="showPage('pageRegister')">Еще не зарегистрированы? Регистрация</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="page" id="pageRequests">
+        <div class="container">
+            <div class="nav-tabs">
+                <button class="nav-tab active" onclick="switchUserTab('myRequests', this)">Мои заявки</button>
+                <button class="nav-tab" onclick="switchUserTab('newRequest', this)">Новая заявка</button>
+            </div>
+
+            <div id="tabMyRequests">
+                <div class="card">
+                    <h2>Мои заявки</h2>
+                    <div id="requestsList"></div>
+                </div>
+            </div>
+
+            <div id="tabNewRequest" style="display:none;">
+                <div class="card">
+                    <h2>Формирование заявки</h2>
+                    <div class="alert alert-error" id="reqAlertError"></div>
+                    <div class="alert alert-success" id="reqAlertSuccess"></div>
+
+                    <div class="form-group">
+                        <label>Помещение</label>
+                        <select id="reqRoom">
+                            <option value="">-- Выберите помещение --</option>
+                            <option value="Аудитория">Аудитория</option>
+                            <option value="Коворкинг">Коворкинг</option>
+                            <option value="Кинозал">Кинозал</option>
+                        </select>
+                        <div class="error-msg" id="reqRoomError">Выберите помещение</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Название помещения</label>
+                        <input type="text" id="reqRoomName" placeholder="Введите название помещения">
+                        <div class="error-msg" id="reqRoomNameError">Введите название помещения</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Желаемая дата начала конференции</label>
+                        <input type="date" id="reqDate">
+                        <div class="error-msg" id="reqDateError">Укажите дату</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Способ оплаты</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="payment" value="Очное посещение"> При очном посещении</label>
+                            <label><input type="radio" name="payment" value="Перевод по системе СБП"> Перевод по системе СБП</label>
+                        </div>
+                        <div class="error-msg" id="reqPaymentError">Выберите способ оплаты</div>
+                    </div>
+
+                    <button class="btn btn-success" onclick="submitRequest()" style="width:100%; padding:12px; font-size:1em;">Отправить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page" id="pageAdmin">
+        <div class="container" style="max-width:900px;">
+            <div class="admin-stats" id="adminStats"></div>
+
+            <div class="card">
+                <h2>Все заявки</h2>
+                <div id="adminRequestsList"></div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
